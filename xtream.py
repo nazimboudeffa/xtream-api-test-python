@@ -1,9 +1,8 @@
 import requests 
-import datetime
 
-server = "http://foo.bar:666"
-username = "ernie"
-password = "bert"
+server = "http://example.com:8080"
+username = "test"
+password = "test"
 
 liveType = "Live"
 vodType = "VOD"

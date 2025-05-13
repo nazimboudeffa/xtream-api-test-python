@@ -1,8 +1,5 @@
-import requests
 import datetime
 import xtream
-import json
-import os
 
 import config
 
@@ -18,8 +15,6 @@ x.password = config.provider['password']
 r = x.authenticate()
 
 data = r.json()
-
-#writeJSON (providername + '-auth.json', data)
 
 user_username = data['user_info']['username']
 user_status = data['user_info']['status']
@@ -111,89 +106,10 @@ try:
       print(entry)
 
     print(delimiter)
+    print('Total Live Streams:                             {0:>4d}'.format(total_streams))
+    print(delimiter)
+    print('Live Category IDs:                              {0}'.format(live_IDs))
+    print(delimiter)
+
 except ValueError as err:
   print("Value error: {0}".format(err))
-
-r = x.categories(x.vodType)
-
-try:
-  vod_category_data = r.json() 
-
-  #writeJSON (providername + '-vod-categories.json', vod_category_data)
-
-  s = x.streams(x.vodType)
-  vod_stream_data = s.json() 
-
-  #writeJSON (providername + '-vod-streams.json', vod_stream_data)
-
-  vod_names = []
-  vod_IDs = []
-  pos = 0
-  while pos <= len(vod_category_data) - 1:
-    cat_streams_data = [item for item in vod_stream_data if item['category_id'] == vod_category_data[pos]['category_id']]
-    vod_names.append("{0:<40s} - {1:>3s} - {2:4d} streams".format(vod_category_data[pos]['category_name'], vod_category_data[pos]['category_id'], len(cat_streams_data)))
-    total_streams += len(cat_streams_data)
-    vod_IDs.append(vod_category_data[pos]['category_id'])
-    pos += 1
-  vod_names.sort()
-
-  if len(vod_category_data) > 0:
-    print(u'VOD Category Count:                              {0:>4d}'.format(len(vod_category_data)))
-    print(delimiter)
-
-    for i, entry in enumerate(vod_names):
-      print(entry)
-
-    print(delimiter)
-except ValueError as err:
-  print("Value error: {0}".format(err))
-
-r = x.categories(x.seriesType)
-try:
-  series_category_data = r.json() 
-
-  #writeJSON (providername + '-series-categories.json', series_category_data)
-
-  s = x.streams(x.seriesType)
-  series_stream_data = s.json() 
-
-  #writeJSON (providername + '-series-streams.json', series_stream_data)
-
-  series_names = []
-  series_IDs = []
-
-  pos = 0
-  while pos <= len(series_category_data) - 1:
-    cat_streams_data = [item for item in series_stream_data if item['category_id'] == series_category_data[pos]['category_id']]
-    #writeJSON (series_category_data[pos]['category_id'] + '-stream-data.json', cat_streams_data)
-    series_names.append(u"{0:<47s} - {1:>3s}".format(series_category_data[pos]['category_name'], series_category_data[pos]['category_id']))
-    total_streams += len(cat_streams_data)
-    series_IDs.append(series_category_data[pos]['category_id'])
-    pos += 1
-  series_names.sort()
-
-  if len(series_category_data) > 0:
-    print(u'Series Category Count:                           {0:>4d}'.format(len(series_category_data)))
-    print(delimiter)
-
-    for i, entry in enumerate(series_names):
-      print(entry)
-
-    print(delimiter)
-except ValueError as err:
-  print("Value error: {0}".format(err))
-
-print('Total Stream Count:     {}\n'.format(total_streams))
-
-NoneType = type(None)
-
-if (config.display_live_info == 1):
-  live_category_data.sort(key=VODName)
-  for i, entry in enumerate(live_category_data):
-    print('\n\nStreams for Live category {} - {}:\n'.format(entry['category_id'],entry['category_name']))
-    cat_streams_data = [item for item in live_stream_data if item['category_id'] == entry['category_id']]
-    print(u"{0:<75s} {1:>5s} {2:>4s} ".format('name','ID', 'EPG?'))
-    print(delimiter)
-    for i, stream in enumerate(cat_streams_data):
-      print(u"{0:<75s} {1:>5d} {2:>4s}".format(stream['name'],stream['stream_id'],EPGString(stream['epg_channel_id'])))
-    print(delimiter)
