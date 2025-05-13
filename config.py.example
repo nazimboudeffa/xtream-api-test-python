@@ -1,0 +1,11 @@
+provider = dict(
+    name = "BledPlus LEGAL IPTV",
+    server = "http://exemple.com:8080",
+    username = "test",
+    password = "test"
+)
+
+# maybe you don't want all that detail
+display_series_info = 0
+display_live_info = 0
+display_vod_info = 1
