@@ -1,4 +1,4 @@
-# XTREAM-CODES-API TESTING
+# XTREAM API TEST
 
 Python script and module to interact with Xtream UI Servers API
 
