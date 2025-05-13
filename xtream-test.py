@@ -78,13 +78,9 @@ r = x.categories(x.liveType)
 
 try:
   live_category_data = r.json() 
-  
-  #writeJSON (providername + '-live-categories.json', live_category_data)
 
   s = x.streams(x.liveType)
   live_stream_data = s.json() 
-
-  #writeJSON (providername + '-live-streams.json', live_stream_data)
 
   # live_category_data is list of dict
   live_names = []
@@ -108,7 +104,17 @@ try:
     print(delimiter)
     print('Total Live Streams:                             {0:>4d}'.format(total_streams))
     print(delimiter)
-    print('Live Category IDs:                              {0}'.format(live_IDs))
+
+    # List streams by live category
+    for category in live_category_data:
+        print(f"Category: {category['category_name']} (ID: {category['category_id']})")
+        cat_streams = [stream for stream in live_stream_data if stream['category_id'] == category['category_id']]
+        if cat_streams:
+            for stream in cat_streams:
+                print(f"  - {stream.get('name', 'Unnamed Stream')} (ID: {stream.get('stream_id', 'N/A')})")
+        else:
+            print("  No streams in this category.")
+        print()  # Blank line between categories
     print(delimiter)
 
 except ValueError as err:
