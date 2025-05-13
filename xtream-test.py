@@ -114,8 +114,7 @@ try:
                 print(f"  - {stream.get('name', 'Unnamed Stream')} (ID: {stream.get('stream_id', 'N/A')})")
         else:
             print("  No streams in this category.")
-        print()  # Blank line between categories
-    print(delimiter)
+        print(delimiter)  # Blank line between categories
 
 except ValueError as err:
   print("Value error: {0}".format(err))
